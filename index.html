@@ -125,6 +125,17 @@
         font-weight: 650;
       }
 
+      .score-label {
+        font-size: 0.54rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+      }
+
+      .score-separator {
+        margin: 0 4px;
+        color: var(--accent);
+      }
+
       #best {
         color: var(--lavender);
         font-weight: 650;
@@ -172,14 +183,8 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
-        mix-blend-mode: multiply;
-        opacity: 0;
+        mix-blend-mode: normal;
         transform: scale(1.04);
-        transition: opacity 120ms ease;
-      }
-
-      #player img.ready {
-        opacity: 1;
       }
 
       #player.moving img {
@@ -457,7 +462,11 @@
           <p class="story">Rette Bacti vor dem Labor-Chaos.</p>
         </div>
         <p class="score" aria-label="Spielstand">
-          <strong id="score">0000</strong> · BEST <span id="best">0000</span>
+          <span class="score-label">DIST</span>
+          <strong id="score">0000</strong>
+          <span class="score-separator">//</span>
+          <span class="score-label">BEST</span>
+          <span id="best">0000</span>
         </p>
       </header>
 
@@ -474,13 +483,13 @@
           X 000—960 / Y 000—400
         </div>
         <div id="player" aria-label="Bacti">
-          <img src="bacti-kawaii.png" alt="" />
+          <img src="bacti-kawaii-iconic.png" alt="" />
         </div>
         <div class="ground" aria-hidden="true"></div>
 
         <div class="overlay" id="overlay">
           <div class="overlay-content">
-            <h2 id="message">Bereit für den Sprung?</h2>
+            <h2 id="message">Bacti // Bereit</h2>
             <p id="submessage">
               Springe doppelt. Bücke dich unter schwebenden Pipetten.
             </p>
@@ -505,7 +514,6 @@
       (() => {
         const game = document.querySelector('#game');
         const player = document.querySelector('#player');
-        const playerImage = player.querySelector('img');
         const overlay = document.querySelector('#overlay');
         const message = document.querySelector('#message');
         const submessage = document.querySelector('#submessage');
@@ -602,75 +610,6 @@
           obstacles = [];
         }
 
-        function cleanCellBackdrop(image) {
-          if (image.dataset.cleaned === 'true') {
-            image.classList.add('ready');
-            return;
-          }
-
-          try {
-            const size = 256;
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d', { willReadFrequently: true });
-            canvas.width = size;
-            canvas.height = size;
-            context.drawImage(image, 0, 0, size, size);
-
-            const imageData = context.getImageData(0, 0, size, size);
-            const pixels = imageData.data;
-            const seen = new Uint8Array(size * size);
-            const queue = new Int32Array(size * size);
-            let head = 0;
-            let tail = 0;
-
-            function isPaper(index) {
-              const offset = index * 4;
-              const red = pixels[offset];
-              const green = pixels[offset + 1];
-              const blue = pixels[offset + 2];
-              return (
-                Math.min(red, green, blue) > 205 &&
-                Math.max(red, green, blue) - Math.min(red, green, blue) < 24
-              );
-            }
-
-            function enqueue(x, y) {
-              const index = y * size + x;
-              if (seen[index] || !isPaper(index)) return;
-              seen[index] = 1;
-              queue[tail] = index;
-              tail += 1;
-            }
-
-            for (let edge = 0; edge < size; edge += 1) {
-              enqueue(edge, 0);
-              enqueue(edge, size - 1);
-              enqueue(0, edge);
-              enqueue(size - 1, edge);
-            }
-
-            while (head < tail) {
-              const index = queue[head];
-              head += 1;
-              const x = index % size;
-              const y = Math.floor(index / size);
-              pixels[index * 4 + 3] = 0;
-              if (x > 0) enqueue(x - 1, y);
-              if (x < size - 1) enqueue(x + 1, y);
-              if (y > 0) enqueue(x, y - 1);
-              if (y < size - 1) enqueue(x, y + 1);
-            }
-
-            context.putImageData(imageData, 0, 0);
-            image.dataset.cleaned = 'true';
-            image.src = canvas.toDataURL('image/png');
-            image.classList.add('ready');
-          } catch (error) {
-            image.dataset.cleaned = 'true';
-            image.classList.add('ready');
-          }
-        }
-
         function startGame() {
           clearObstacles();
           state = 'running';
@@ -743,7 +682,7 @@
             localStorage.setItem('bakterien-jump-best', String(best));
           }
 
-          message.textContent = 'Oh nein – kontaminiert!';
+          message.textContent = 'Kontaminiert!';
           submessage.textContent = `${finalScore} Punkte`;
           startButton.textContent = 'Neustart';
           overlay.dataset.state = 'danger';
@@ -838,8 +777,6 @@
         });
         window.addEventListener('pointerup', () => setCrouching(false));
 
-        if (playerImage.complete) cleanCellBackdrop(playerImage);
-        else playerImage.addEventListener('load', () => cleanCellBackdrop(playerImage));
       })();
     </script>
   </body>
