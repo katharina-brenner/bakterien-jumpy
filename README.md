@@ -1,4 +1,4 @@
-# Bakterien-Jump
+# Jumpy
 
 Ein handgezeichnetes Bio-Tech-Browser-Spiel auf technischem Rasterpapier:
 Rette das kawaii Bakterium Bacti vor großen und kleinen Laborgegenständen.
