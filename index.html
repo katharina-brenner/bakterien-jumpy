@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f6f2" />
+    <meta
+      name="description"
+      content="Bakterien-Jump – rette Bacti vor dem Labor-Chaos."
+    />
+    <title>Bakterien-Jump</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 x=%2250%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2252%22>🦠</text></svg>"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #fafaf7;
+        --text: #17211e;
+        --muted: #6d7773;
+        --line: #cbd2ce;
+        --accent: #087c66;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        overscroll-behavior: none;
+      }
+
+      main {
+        width: min(920px, calc(100% - 32px));
+        min-height: 100svh;
+        margin: 0 auto;
+        padding: 32px 0 24px;
+        display: grid;
+        grid-template-rows: auto minmax(360px, 1fr) auto;
+        gap: 18px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .eyebrow,
+      .story {
+        margin: 0;
+      }
+
+      .eyebrow {
+        margin-bottom: 4px;
+        color: var(--accent);
+        font-size: 0.68rem;
+        font-weight: 750;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.25rem, 4vw, 1.7rem);
+        letter-spacing: -0.04em;
+      }
+
+      .story {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .score {
+        margin: 0;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.85rem;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .score strong {
+        color: var(--text);
+        font-weight: 650;
+      }
+
+      #game {
+        position: relative;
+        min-height: 360px;
+        overflow: hidden;
+        background: transparent;
+        touch-action: manipulation;
+        user-select: none;
+      }
+
+      #player,
+      .obstacle {
+        position: absolute;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        line-height: 1;
+      }
+
+      #player {
+        left: clamp(28px, 9vw, 80px);
+        bottom: 37px;
+        width: 58px;
+        height: 58px;
+        transform-origin: center;
+      }
+
+      #player img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        transform: scale(1.18);
+      }
+
+      .obstacle {
+        left: 0;
+        bottom: 37px;
+        color: var(--text);
+      }
+
+      .obstacle svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .ground {
+        position: absolute;
+        right: 0;
+        bottom: 36px;
+        left: 0;
+        height: 1px;
+        background: var(--line);
+      }
+
+      .lab-status {
+        position: absolute;
+        top: 14px;
+        left: 0;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: grid;
+        place-items: center;
+        background: rgb(250 250 247 / 88%);
+        text-align: center;
+      }
+
+      .overlay[hidden] {
+        display: none;
+      }
+
+      .overlay-content {
+        padding: 24px;
+      }
+
+      .overlay h2 {
+        margin: 0;
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        letter-spacing: -0.04em;
+      }
+
+      .overlay p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      button {
+        margin-top: 20px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--text);
+        color: white;
+        padding: 11px 20px;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--accent);
+      }
+
+      button:focus-visible {
+        outline: 3px solid rgb(8 124 102 / 28%);
+        outline-offset: 3px;
+      }
+
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+        text-align: center;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      @media (max-width: 560px) {
+        main {
+          width: min(100% - 20px, 920px);
+          padding-top: 20px;
+          gap: 12px;
+        }
+
+        header {
+          align-items: center;
+        }
+
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Petrischale 07</p>
+          <h1>Bakterien-Jump</h1>
+          <p class="story">Rette Bacti vor dem Labor-Chaos.</p>
+        </div>
+        <p class="score" aria-label="Spielstand">
+          <strong id="score">0000</strong> · BEST <span id="best">0000</span>
+        </p>
+      </header>
+
+      <section
+        id="game"
+        role="application"
+        aria-label="Bakterien-Jump. Mit Leertaste, Pfeil nach oben oder Tippen springen."
+      >
+        <div class="lab-status" aria-hidden="true">37 °C · pH 7,2</div>
+        <div id="player" aria-label="Bacti">
+          <img src="cell.png" alt="" />
+        </div>
+        <div class="ground" aria-hidden="true"></div>
+
+        <div class="overlay" id="overlay">
+          <div class="overlay-content">
+            <h2 id="message">Bereit für den Sprung?</h2>
+            <p id="submessage">
+              Springe über Kolben, Pipetten und Reagenzgläser.
+            </p>
+            <button id="start" type="button">Start</button>
+          </div>
+        </div>
+
+        <span id="status" class="sr-only" aria-live="polite"></span>
+      </section>
+
+      <p class="hint">Leertaste · ↑ · Tippen</p>
+    </main>
+
+    <script>
+      (() => {
+        const game = document.querySelector('#game');
+        const player = document.querySelector('#player');
+        const overlay = document.querySelector('#overlay');
+        const message = document.querySelector('#message');
+        const submessage = document.querySelector('#submessage');
+        const startButton = document.querySelector('#start');
+        const scoreElement = document.querySelector('#score');
+        const bestElement = document.querySelector('#best');
+        const statusElement = document.querySelector('#status');
+
+        const gravity = 2050;
+        const jumpVelocity = 760;
+        const supplies = [
+          {
+            drawing:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3h15"/><path d="M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3"/><path d="M6 14h12"/></svg>',
+            width: 46,
+            height: 48,
+            label: 'Becherglas',
+          },
+          {
+            drawing:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg>',
+            width: 52,
+            height: 66,
+            label: 'Kolben',
+          },
+          {
+            drawing:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 9-8.414 8.414A2 2 0 0 0 3 18.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 3.828 21h1.344a2 2 0 0 0 1.414-.586L15 12"/><path d="m18 9 .4.4a1 1 0 1 1-3 3l-3.8-3.8a1 1 0 1 1 3-3l.4.4 3.4-3.4a1 1 0 1 1 3 3z"/><path d="m2 22 .414-.414"/></svg>',
+            width: 70,
+            height: 34,
+            label: 'Pipette',
+          },
+          {
+            drawing:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v17.5A2.5 2.5 0 0 1 6.5 22A2.5 2.5 0 0 1 4 19.5V2"/><path d="M20 2v17.5a2.5 2.5 0 0 1-2.5 2.5a2.5 2.5 0 0 1-2.5-2.5V2"/><path d="M3 2h7"/><path d="M14 2h7"/><path d="M9 16H4"/><path d="M20 16h-5"/></svg>',
+            width: 52,
+            height: 78,
+            label: 'Reagenzgläser',
+          },
+          {
+            drawing:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7 6.82 21.18a2.83 2.83 0 0 1-3.99-.01 2.83 2.83 0 0 1 0-4L17 3"/><path d="m16 2 6 6"/><path d="M12 16H4"/></svg>',
+            width: 44,
+            height: 58,
+            label: 'Reagenzglas',
+          },
+        ];
+
+        let state = 'idle';
+        let playerY = 0;
+        let velocity = 0;
+        let score = 0;
+        let best = Number.parseInt(
+          localStorage.getItem('bakterien-jump-best') || '0',
+          10,
+        );
+        let obstacles = [];
+        let nextObstacle = 0.9;
+        let previousTime = 0;
+        let frame = 0;
+
+        bestElement.textContent = formatScore(best);
+
+        function formatScore(value) {
+          return String(Math.floor(value)).padStart(4, '0');
+        }
+
+        function clearObstacles() {
+          obstacles.forEach((obstacle) => obstacle.element.remove());
+          obstacles = [];
+        }
+
+        function startGame() {
+          clearObstacles();
+          state = 'running';
+          playerY = 0;
+          velocity = jumpVelocity;
+          score = 0;
+          nextObstacle = 0.9;
+          previousTime = performance.now();
+          overlay.hidden = true;
+          scoreElement.textContent = '0000';
+          statusElement.textContent = 'Spiel gestartet.';
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(update);
+        }
+
+        function jump() {
+          if (state !== 'running') {
+            startGame();
+            return;
+          }
+
+          if (playerY <= 2) velocity = jumpVelocity;
+        }
+
+        function addObstacle() {
+          const supply = supplies[Math.floor(Math.random() * supplies.length)];
+          const element = document.createElement('div');
+          element.className = 'obstacle';
+          element.innerHTML = supply.drawing;
+          element.setAttribute('aria-label', supply.label);
+          element.style.width = `${supply.width}px`;
+          element.style.height = `${supply.height}px`;
+          game.appendChild(element);
+
+          obstacles.push({
+            ...supply,
+            x: game.clientWidth + 20,
+            element,
+          });
+        }
+
+        function endGame() {
+          state = 'over';
+          velocity = 0;
+          const finalScore = Math.floor(score);
+
+          if (finalScore > best) {
+            best = finalScore;
+            bestElement.textContent = formatScore(best);
+            localStorage.setItem('bakterien-jump-best', String(best));
+          }
+
+          message.textContent = 'Oh nein – kontaminiert!';
+          submessage.textContent = `${finalScore} Punkte`;
+          startButton.textContent = 'Nochmal';
+          overlay.hidden = false;
+          statusElement.textContent = `Spiel vorbei. ${finalScore} Punkte.`;
+        }
+
+        function update(now) {
+          const delta = Math.min((now - previousTime) / 1000, 0.034);
+          previousTime = now;
+
+          velocity -= gravity * delta;
+          playerY = Math.max(0, playerY + velocity * delta);
+          if (playerY === 0) velocity = 0;
+          player.style.transform = `translateY(${-playerY}px) rotate(${Math.max(-8, Math.min(8, -velocity / 85))}deg)`;
+
+          score += delta * 10;
+          scoreElement.textContent = formatScore(score);
+
+          const speed = 330 + Math.min(score * 1.3, 250);
+          nextObstacle -= delta;
+
+          if (nextObstacle <= 0) {
+            addObstacle();
+            nextObstacle = Math.max(0.85, 1.45 + Math.random() * 0.65 - score / 220);
+          }
+
+          const playerLeft = player.offsetLeft;
+          const playerRight = playerLeft + player.offsetWidth;
+          let collision = false;
+
+          obstacles.forEach((obstacle) => {
+            obstacle.x -= speed * delta;
+            obstacle.element.style.transform = `translateX(${obstacle.x}px)`;
+
+            if (
+              playerRight - 8 > obstacle.x &&
+              playerLeft + 9 < obstacle.x + obstacle.width &&
+              playerY < obstacle.height - 8
+            ) {
+              collision = true;
+            }
+          });
+
+          obstacles = obstacles.filter((obstacle) => {
+            if (obstacle.x + obstacle.width > -10) return true;
+            obstacle.element.remove();
+            return false;
+          });
+
+          if (collision) {
+            endGame();
+            return;
+          }
+
+          if (state === 'running') frame = requestAnimationFrame(update);
+        }
+
+        startButton.addEventListener('click', startGame);
+        game.addEventListener('pointerdown', (event) => {
+          if (!event.target.closest('button')) jump();
+        });
+        window.addEventListener('keydown', (event) => {
+          if (event.code === 'Space' || event.code === 'ArrowUp') {
+            event.preventDefault();
+            jump();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
