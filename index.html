@@ -23,6 +23,12 @@
       name="twitter:image"
       content="https://katharina-brenner.github.io/bakterien-jumpy/og-pastel.png"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Jumpy</title>
     <link rel="icon" href="jumpy-sprite-pastel.png" />
     <style>
@@ -38,7 +44,6 @@
         --grid-major: rgb(75 73 69 / 13%);
         --accent: #6f6c67;
         --danger: #696663;
-        --ink-stain: rgb(72 70 67 / 13%);
         --pastel-pink: #d7aaa9;
         --pastel-lilac: #b9accb;
         --pastel-mint: #aec9b7;
@@ -62,8 +67,7 @@
           linear-gradient(90deg, rgb(72 70 67 / 4%) 1px, transparent 1px);
         background-size: 6px 6px, 24px 24px, 24px 24px;
         color: var(--text);
-        font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo,
-          Consolas, monospace;
+        font-family: "Oxanium", "SFMono-Regular", Menlo, Consolas, sans-serif;
         font-variant-numeric: tabular-nums slashed-zero;
         overscroll-behavior: none;
       }
@@ -96,8 +100,7 @@
 
       h1 {
         margin: 0;
-        font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo,
-          monospace;
+        font-family: inherit;
         font-size: clamp(1.2rem, 4vw, 1.75rem);
         font-weight: 760;
         letter-spacing: 0.05em;
@@ -217,33 +220,7 @@
         width: 100%;
         height: 100%;
         filter: url('#rough-ink');
-        stroke-width: 1.22;
-      }
-
-      .ink-stain {
-        position: absolute;
-        z-index: 1;
-        top: 58px;
-        right: 7%;
-        width: 128px;
-        height: 78px;
-        pointer-events: none;
-        opacity: 0.8;
-        background:
-          radial-gradient(circle at 14% 72%, var(--ink-stain) 0 2px, transparent 3px),
-          radial-gradient(circle at 86% 18%, var(--ink-stain) 0 1.5px, transparent 2.5px),
-          radial-gradient(circle at 72% 83%, var(--ink-stain) 0 2.5px, transparent 3.5px),
-          radial-gradient(
-            ellipse at 52% 48%,
-            transparent 0 31%,
-            var(--ink-stain) 32% 35%,
-            transparent 37% 42%,
-            var(--ink-stain) 44% 45%,
-            transparent 47%
-          );
-        filter: blur(0.25px);
-        transform: rotate(-11deg);
-        mix-blend-mode: multiply;
+        stroke-width: 0.9;
       }
 
       .ground {
@@ -313,8 +290,7 @@
 
       .overlay h2 {
         margin: 0;
-        font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo,
-          monospace;
+        font-family: inherit;
         font-size: clamp(1.15rem, 4vw, 1.65rem);
         font-weight: 760;
         letter-spacing: 0.04em;
@@ -636,7 +612,6 @@
         <div class="lab-status" aria-hidden="true">
           SYS / STABIL · 37 °C · pH 7,2
         </div>
-        <div class="ink-stain" aria-hidden="true"></div>
         <div class="coordinate-label" aria-hidden="true">
           X 000—960 / Y 000—400
         </div>
@@ -849,7 +824,7 @@
             localStorage.setItem('bakterien-jump-best', String(best));
           }
 
-          message.textContent = 'Kontaminiert!';
+          message.textContent = 'Oh nein... Kontaminiert!';
           submessage.textContent = `${finalScore} Punkte`;
           startButton.textContent = 'Neustart';
           overlay.dataset.state = 'danger';
@@ -859,7 +834,8 @@
           washEffect.classList.remove('is-active');
           void washEffect.offsetWidth;
           washEffect.classList.add('is-active');
-          statusElement.textContent = 'Kontaminiert. Wasser verwischt die Zeichnung.';
+          statusElement.textContent =
+            'Oh nein... Kontaminiert! Wasser verwischt die Zeichnung.';
 
           const washDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches
             ? 220
