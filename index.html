@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f6f2" />
+    <meta name="theme-color" content="#f1f0eb" />
     <meta
       name="description"
       content="Bakterien-Jump – rette Bacti vor dem Labor-Chaos."
@@ -16,11 +16,14 @@
     <style>
       :root {
         color-scheme: light;
-        --background: #fafaf7;
-        --text: #17211e;
-        --muted: #6d7773;
-        --line: #cbd2ce;
-        --accent: #087c66;
+        --background: #f1f0eb;
+        --text: #17332d;
+        --muted: #68746f;
+        --line: #b9c6c0;
+        --accent: #008f75;
+        --lavender: #7465d5;
+        --sunny: #f2c94c;
+        --danger: #db594c;
       }
 
       * {
@@ -99,6 +102,11 @@
         font-weight: 650;
       }
 
+      #best {
+        color: var(--lavender);
+        font-weight: 650;
+      }
+
       #game {
         position: relative;
         min-height: 360px;
@@ -159,7 +167,7 @@
         position: absolute;
         top: 14px;
         left: 0;
-        color: var(--muted);
+        color: var(--lavender);
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
         font-size: 0.68rem;
         letter-spacing: 0.08em;
@@ -172,7 +180,7 @@
         z-index: 4;
         display: grid;
         place-items: center;
-        background: rgb(250 250 247 / 88%);
+        background: rgb(241 240 235 / 90%);
         text-align: center;
       }
 
@@ -190,6 +198,10 @@
         letter-spacing: -0.04em;
       }
 
+      .overlay[data-state='danger'] h2 {
+        color: var(--danger);
+      }
+
       .overlay p {
         margin: 8px 0 0;
         color: var(--muted);
@@ -200,7 +212,7 @@
         margin-top: 20px;
         border: 0;
         border-radius: 999px;
-        background: var(--text);
+        background: var(--accent);
         color: white;
         padding: 11px 20px;
         font: inherit;
@@ -210,11 +222,11 @@
       }
 
       button:hover {
-        background: var(--accent);
+        background: var(--text);
       }
 
       button:focus-visible {
-        outline: 3px solid rgb(8 124 102 / 28%);
+        outline: 3px solid var(--sunny);
         outline-offset: 3px;
       }
 
@@ -384,6 +396,7 @@
           nextObstacle = 0.9;
           previousTime = performance.now();
           overlay.hidden = true;
+          overlay.dataset.state = '';
           scoreElement.textContent = '0000';
           statusElement.textContent = 'Spiel gestartet.';
           cancelAnimationFrame(frame);
@@ -430,6 +443,7 @@
           message.textContent = 'Oh nein – kontaminiert!';
           submessage.textContent = `${finalScore} Punkte`;
           startButton.textContent = 'Nochmal';
+          overlay.dataset.state = 'danger';
           overlay.hidden = false;
           statusElement.textContent = `Spiel vorbei. ${finalScore} Punkte.`;
         }
