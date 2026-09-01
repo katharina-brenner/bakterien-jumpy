@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f2f5ef" />
+    <meta name="theme-color" content="#efeee9" />
     <meta
       name="description"
       content="Jumpy"
@@ -13,7 +13,7 @@
     <meta property="og:description" content="Jumpy" />
     <meta
       property="og:image"
-      content="https://katharina-brenner.github.io/bakterien-jumpy/og.png"
+      content="https://katharina-brenner.github.io/bakterien-jumpy/og-pastel.png"
     />
     <meta property="og:image:alt" content="Jumpy" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -21,29 +21,27 @@
     <meta name="twitter:description" content="Jumpy" />
     <meta
       name="twitter:image"
-      content="https://katharina-brenner.github.io/bakterien-jumpy/og.png"
+      content="https://katharina-brenner.github.io/bakterien-jumpy/og-pastel.png"
     />
     <title>Jumpy</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 x=%2250%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2252%22>🦠</text></svg>"
-    />
+    <link rel="icon" href="jumpy-sprite-pastel.png" />
     <style>
       :root {
         color-scheme: light;
-        --background: #f2f5ef;
-        --paper: #f8faf4;
-        --text: #173e48;
-        --pencil: #274e57;
-        --muted: #6c8384;
-        --line: #9fb7b5;
-        --grid: rgb(45 111 119 / 10%);
-        --grid-major: rgb(45 111 119 / 17%);
-        --accent: #008e7f;
-        --lavender: #82749b;
-        --sunny: #c9a85f;
-        --danger: #c85854;
-        --ink-stain: rgb(23 62 72 / 16%);
+        --background: #e9e8e3;
+        --paper: #f7f5ef;
+        --text: #484744;
+        --pencil: #5e5c58;
+        --muted: #85817b;
+        --line: #c6c2ba;
+        --grid: rgb(75 73 69 / 8%);
+        --grid-major: rgb(75 73 69 / 13%);
+        --accent: #6f6c67;
+        --danger: #696663;
+        --ink-stain: rgb(72 70 67 / 13%);
+        --pastel-pink: #d7aaa9;
+        --pastel-lilac: #b9accb;
+        --pastel-mint: #aec9b7;
       }
 
       * {
@@ -59,9 +57,9 @@
         margin: 0;
         background-color: var(--background);
         background-image:
-          radial-gradient(rgb(23 62 72 / 5%) 0.65px, transparent 0.75px),
-          linear-gradient(rgb(45 111 119 / 5%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(45 111 119 / 5%) 1px, transparent 1px);
+          radial-gradient(rgb(72 70 67 / 4%) 0.65px, transparent 0.75px),
+          linear-gradient(rgb(72 70 67 / 4%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(72 70 67 / 4%) 1px, transparent 1px);
         background-size: 6px 6px, 24px 24px, 24px 24px;
         color: var(--text);
         font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo,
@@ -86,23 +84,14 @@
         align-items: end;
         justify-content: space-between;
         gap: 24px;
-        padding: 7px 10px 10px 15px;
-        border-bottom: 1px solid rgb(23 62 72 / 42%);
-        border-left: 2px solid var(--accent);
+        padding: 14px 16px;
+        border: 1px solid rgb(72 70 67 / 24%);
+        border-radius: 24px;
+        background: rgb(247 245 239 / 72%);
       }
 
-      .eyebrow,
       .story {
         margin: 0;
-      }
-
-      .eyebrow {
-        margin-bottom: 4px;
-        color: var(--accent);
-        font-size: 0.61rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
       }
 
       h1 {
@@ -111,9 +100,18 @@
           monospace;
         font-size: clamp(1.2rem, 4vw, 1.75rem);
         font-weight: 760;
-        letter-spacing: 0.11em;
+        letter-spacing: 0.05em;
         line-height: 1.05;
-        text-transform: uppercase;
+        background: linear-gradient(
+          105deg,
+          var(--pastel-pink),
+          var(--pastel-lilac) 48%,
+          var(--pastel-mint)
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        filter: saturate(0.8);
       }
 
       .story {
@@ -126,8 +124,9 @@
       .score {
         margin: 0;
         color: var(--muted);
-        border: 1px solid rgb(23 62 72 / 35%);
-        background: rgb(248 250 244 / 76%);
+        border: 1px solid rgb(72 70 67 / 24%);
+        border-radius: 999px;
+        background: rgb(247 245 239 / 84%);
         padding: 7px 9px;
         font-size: 0.7rem;
         font-variant-numeric: tabular-nums;
@@ -148,11 +147,11 @@
 
       .score-separator {
         margin: 0 4px;
-        color: var(--accent);
+        color: var(--muted);
       }
 
       #best {
-        color: var(--lavender);
+        color: var(--text);
         font-weight: 650;
       }
 
@@ -167,11 +166,11 @@
           linear-gradient(var(--grid) 1px, transparent 1px),
           linear-gradient(90deg, var(--grid) 1px, transparent 1px);
         background-size: 96px 96px, 96px 96px, 12px 12px, 12px 12px;
-        border: 1px solid rgb(23 62 72 / 74%);
-        border-radius: 2px;
+        border: 1px solid rgb(72 70 67 / 42%);
+        border-radius: 28px;
         box-shadow:
-          3px 3px 0 rgb(23 62 72 / 9%),
-          8px 10px 24px rgb(23 62 72 / 5%);
+          3px 3px 0 rgb(72 70 67 / 7%),
+          8px 10px 24px rgb(72 70 67 / 5%);
         touch-action: manipulation;
         user-select: none;
       }
@@ -199,7 +198,7 @@
         height: 100%;
         object-fit: contain;
         mix-blend-mode: normal;
-        transform: scale(1.04);
+        transform: scale(1.12);
       }
 
       #player.moving img {
@@ -254,10 +253,10 @@
         left: 0;
         height: 4px;
         background:
-          linear-gradient(rgb(23 62 72 / 72%) 0 1px, transparent 1px),
+          linear-gradient(rgb(72 70 67 / 62%) 0 1px, transparent 1px),
           repeating-linear-gradient(
             90deg,
-            rgb(23 62 72 / 42%) 0 1px,
+            rgb(72 70 67 / 34%) 0 1px,
             transparent 1px 48px
           );
         transform: rotate(-0.025deg);
@@ -267,10 +266,11 @@
         position: absolute;
         top: 14px;
         left: 14px;
-        color: var(--accent);
-        border: 1px solid rgb(0 142 127 / 36%);
-        background: rgb(248 250 244 / 72%);
-        padding: 4px 6px;
+        color: var(--muted);
+        border: 1px solid rgb(72 70 67 / 22%);
+        border-radius: 999px;
+        background: rgb(247 245 239 / 78%);
+        padding: 5px 8px;
         font-size: 0.58rem;
         font-weight: 700;
         letter-spacing: 0.12em;
@@ -282,7 +282,7 @@
         right: 11px;
         bottom: 50px;
         z-index: 1;
-        color: rgb(23 62 72 / 50%);
+        color: rgb(72 70 67 / 44%);
         font-size: 0.52rem;
         letter-spacing: 0.1em;
         pointer-events: none;
@@ -291,10 +291,10 @@
       .overlay {
         position: absolute;
         inset: 0;
-        z-index: 4;
+        z-index: 6;
         display: grid;
         place-items: center;
-        background: rgb(242 245 239 / 86%);
+        background: rgb(233 232 227 / 88%);
         text-align: center;
       }
 
@@ -305,9 +305,10 @@
       .overlay-content {
         position: relative;
         padding: 24px 30px;
-        border: 1px solid rgb(23 62 72 / 42%);
-        background: rgb(248 250 244 / 84%);
-        box-shadow: 3px 3px 0 rgb(23 62 72 / 8%);
+        border: 1px solid rgb(72 70 67 / 26%);
+        border-radius: 24px;
+        background: rgb(247 245 239 / 90%);
+        box-shadow: 3px 3px 0 rgb(72 70 67 / 6%);
       }
 
       .overlay h2 {
@@ -316,12 +317,22 @@
           monospace;
         font-size: clamp(1.15rem, 4vw, 1.65rem);
         font-weight: 760;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: linear-gradient(
+          105deg,
+          var(--pastel-pink),
+          var(--pastel-lilac) 48%,
+          var(--pastel-mint)
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
       }
 
       .overlay[data-state='danger'] h2 {
         color: var(--danger);
+        background: none;
+        -webkit-text-fill-color: currentColor;
       }
 
       .overlay p {
@@ -333,8 +344,8 @@
 
       button {
         margin-top: 20px;
-        border: 1px solid rgb(23 62 72 / 72%);
-        border-radius: 1px;
+        border: 1px solid rgb(72 70 67 / 46%);
+        border-radius: 999px;
         background: var(--paper);
         color: var(--text);
         padding: 8px 15px;
@@ -344,16 +355,16 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         cursor: pointer;
-        box-shadow: 2px 2px 0 rgb(0 142 127 / 20%);
+        box-shadow: 2px 2px 0 rgb(72 70 67 / 12%);
       }
 
       button:hover {
-        background: rgb(0 142 127 / 10%);
+        background: rgb(72 70 67 / 8%);
         color: var(--text);
       }
 
       button:focus-visible {
-        outline: 3px solid var(--sunny);
+        outline: 3px solid rgb(72 70 67 / 24%);
         outline-offset: 3px;
       }
 
@@ -381,19 +392,145 @@
       }
 
       .control.is-active {
-        border-color: var(--accent);
-        background: rgb(0 142 127 / 11%);
+        border-color: var(--text);
+        background: rgb(72 70 67 / 9%);
         color: var(--text);
         transform: translate(1px, 1px) rotate(-1deg);
+      }
+
+      .wash-effect {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        overflow: hidden;
+        border-radius: inherit;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .wash-effect::before {
+        content: '';
+        position: absolute;
+        top: -54%;
+        left: -12%;
+        width: 124%;
+        height: 62%;
+        border-radius: 0 0 48% 52%;
+        background:
+          radial-gradient(circle at 18% 88%, rgb(255 255 252 / 74%) 0 3%, transparent 4%),
+          radial-gradient(circle at 72% 82%, rgb(255 255 252 / 64%) 0 4%, transparent 5%),
+          linear-gradient(
+            180deg,
+            rgb(247 247 243 / 28%),
+            rgb(206 211 211 / 76%) 62%,
+            rgb(184 190 191 / 72%)
+          );
+        box-shadow:
+          0 18px 24px rgb(107 112 113 / 18%),
+          0 34px 48px rgb(107 112 113 / 12%);
+        filter: blur(0.8px);
+        transform: translateY(-18%);
+      }
+
+      .wash-effect::after {
+        content: '';
+        position: absolute;
+        inset: -10%;
+        background: repeating-linear-gradient(
+          99deg,
+          transparent 0 34px,
+          rgb(176 181 182 / 16%) 36px 39px,
+          transparent 42px 76px
+        );
+        opacity: 0;
+        transform: translateY(-28%);
+      }
+
+      .wash-effect.is-active {
+        opacity: 1;
+        animation: water-fade 1.55s ease-out forwards;
+      }
+
+      .wash-effect.is-active::before {
+        animation: water-sweep 1.35s cubic-bezier(0.44, 0.02, 0.43, 1) forwards;
+      }
+
+      .wash-effect.is-active::after {
+        animation: water-trails 1.4s ease-out forwards;
+      }
+
+      #game.is-washing > :not(.wash-effect):not(.overlay):not(.sr-only) {
+        animation: ink-wash 1.25s 120ms ease-in forwards;
+      }
+
+      #game.is-washed > :not(.wash-effect):not(.overlay):not(.sr-only) {
+        opacity: 0.13;
+        filter: blur(4px) contrast(0.62);
       }
 
       @keyframes sketch-run {
         0%,
         100% {
-          transform: scale(1.04) translateY(0) rotate(-0.7deg);
+          transform: scale(1.12) translateY(0) rotate(-0.7deg);
         }
         50% {
-          transform: scale(1.04) translateY(-0.8px) rotate(0.7deg);
+          transform: scale(1.12) translateY(-0.8px) rotate(0.7deg);
+        }
+      }
+
+      @keyframes water-sweep {
+        0% {
+          transform: translateY(-18%) scaleX(1.02);
+        }
+        52% {
+          transform: translateY(118%) scaleX(0.98);
+        }
+        100% {
+          transform: translateY(260%) scaleX(1.03);
+        }
+      }
+
+      @keyframes water-trails {
+        0%,
+        12% {
+          opacity: 0;
+          transform: translateY(-28%);
+        }
+        34% {
+          opacity: 0.72;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(38%);
+        }
+      }
+
+      @keyframes water-fade {
+        0%,
+        72% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes ink-wash {
+        0% {
+          opacity: 1;
+          filter: blur(0) contrast(1);
+        }
+        35% {
+          opacity: 0.82;
+          filter: blur(0.7px) contrast(0.9);
+        }
+        72% {
+          opacity: 0.34;
+          filter: blur(2.6px) contrast(0.72);
+        }
+        100% {
+          opacity: 0.13;
+          filter: blur(4px) contrast(0.62);
         }
       }
 
@@ -441,6 +578,13 @@
         #player.moving img {
           animation: none;
         }
+
+        .wash-effect.is-active,
+        .wash-effect.is-active::before,
+        .wash-effect.is-active::after,
+        #game.is-washing > :not(.wash-effect):not(.overlay):not(.sr-only) {
+          animation-duration: 180ms;
+        }
       }
     </style>
   </head>
@@ -472,9 +616,8 @@
     <main>
       <header>
         <div>
-          <p class="eyebrow">Bio-System // Petrischale 07</p>
           <h1>Jumpy</h1>
-          <p class="story">Rette Bacti vor dem Labor-Chaos.</p>
+          <p class="story">Rette Jumpy vor dem Labor-Chaos.</p>
         </div>
         <p class="score" aria-label="Spielstand">
           <span class="score-label">DIST</span>
@@ -497,10 +640,11 @@
         <div class="coordinate-label" aria-hidden="true">
           X 000—960 / Y 000—400
         </div>
-        <div id="player" aria-label="Bacti">
-          <img src="bacti-kawaii-iconic.png" alt="" />
+        <div id="player" aria-label="Jumpy">
+          <img src="jumpy-sprite-pastel.png" alt="" />
         </div>
         <div class="ground" aria-hidden="true"></div>
+        <div class="wash-effect" id="wash-effect" aria-hidden="true"></div>
 
         <div class="overlay" id="overlay">
           <div class="overlay-content">
@@ -530,6 +674,7 @@
         const game = document.querySelector('#game');
         const player = document.querySelector('#player');
         const overlay = document.querySelector('#overlay');
+        const washEffect = document.querySelector('#wash-effect');
         const message = document.querySelector('#message');
         const submessage = document.querySelector('#submessage');
         const startButton = document.querySelector('#start');
@@ -613,6 +758,7 @@
         let nextObstacle = 0.9;
         let previousTime = 0;
         let frame = 0;
+        let washTimer = 0;
 
         bestElement.textContent = formatScore(best);
 
@@ -626,6 +772,7 @@
         }
 
         function startGame() {
+          window.clearTimeout(washTimer);
           clearObstacles();
           state = 'running';
           playerY = 0;
@@ -637,6 +784,8 @@
           previousTime = performance.now();
           overlay.hidden = true;
           overlay.dataset.state = '';
+          game.classList.remove('is-washing', 'is-washed');
+          washEffect.classList.remove('is-active');
           scoreElement.textContent = '0000';
           player.classList.add('moving');
           crouchControl.classList.remove('is-active');
@@ -646,10 +795,12 @@
         }
 
         function jump() {
-          if (state !== 'running') {
+          if (state === 'idle') {
             startGame();
             return;
           }
+
+          if (state !== 'running') return;
 
           if (jumpCount < 2) {
             velocity = jumpCount === 0 ? jumpVelocity : jumpVelocity * 0.9;
@@ -684,7 +835,8 @@
         }
 
         function endGame() {
-          state = 'over';
+          if (state !== 'running') return;
+          state = 'washing';
           velocity = 0;
           crouching = false;
           player.classList.remove('moving');
@@ -701,8 +853,26 @@
           submessage.textContent = `${finalScore} Punkte`;
           startButton.textContent = 'Neustart';
           overlay.dataset.state = 'danger';
-          overlay.hidden = false;
-          statusElement.textContent = `Spiel vorbei. ${finalScore} Punkte.`;
+          overlay.hidden = true;
+          game.classList.remove('is-washed');
+          game.classList.add('is-washing');
+          washEffect.classList.remove('is-active');
+          void washEffect.offsetWidth;
+          washEffect.classList.add('is-active');
+          statusElement.textContent = 'Kontaminiert. Wasser verwischt die Zeichnung.';
+
+          const washDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 220
+            : 1450;
+
+          washTimer = window.setTimeout(() => {
+            state = 'over';
+            game.classList.remove('is-washing');
+            game.classList.add('is-washed');
+            washEffect.classList.remove('is-active');
+            overlay.hidden = false;
+            statusElement.textContent = `Spiel vorbei. ${finalScore} Punkte. Neustart erforderlich.`;
+          }, washDuration);
         }
 
         function update(now) {
