@@ -1,7 +1,7 @@
 # Bakterien-Jump
 
-Ein handgezeichnetes Browser-Spiel: Rette Bacti vor großen und kleinen
-Laborgegenständen.
+Ein zart mit Bleistift gezeichnetes Browser-Spiel: Rette die kawaii Zelle Bacti
+vor großen und kleinen Laborgegenständen.
 
 Steuerung:
 
