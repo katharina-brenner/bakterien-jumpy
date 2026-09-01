@@ -1,7 +1,7 @@
 # Bakterien-Jump
 
-Ein zart mit Bleistift gezeichnetes Browser-Spiel: Rette das kawaii Bakterium
-Bacti vor großen und kleinen Laborgegenständen.
+Ein handgezeichnetes Bio-Tech-Browser-Spiel auf technischem Rasterpapier:
+Rette das kawaii Bakterium Bacti vor großen und kleinen Laborgegenständen.
 
 Steuerung:
 
