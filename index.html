@@ -39,7 +39,10 @@
         --text: #484744;
         --pencil: #5e5c58;
         --muted: #85817b;
-        --line: #c6c2ba;
+        --frame: rgb(72 70 67 / 28%);
+        --frame-width: 1px;
+        --type-weight: 500;
+        --drawing-weight: 0.9;
         --grid: rgb(75 73 69 / 8%);
         --grid-major: rgb(75 73 69 / 13%);
         --accent: #6f6c67;
@@ -68,6 +71,7 @@
         background-size: 6px 6px, 24px 24px, 24px 24px;
         color: var(--text);
         font-family: "Oxanium", "SFMono-Regular", Menlo, Consolas, sans-serif;
+        font-weight: var(--type-weight);
         font-variant-numeric: tabular-nums slashed-zero;
         overscroll-behavior: none;
       }
@@ -89,7 +93,7 @@
         justify-content: space-between;
         gap: 24px;
         padding: 14px 16px;
-        border: 1px solid rgb(72 70 67 / 24%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 24px;
         background: rgb(247 245 239 / 72%);
       }
@@ -102,7 +106,7 @@
         margin: 0;
         font-family: inherit;
         font-size: clamp(1.2rem, 4vw, 1.75rem);
-        font-weight: 760;
+        font-weight: var(--type-weight);
         letter-spacing: 0.05em;
         line-height: 1.05;
         background: linear-gradient(
@@ -127,7 +131,7 @@
       .score {
         margin: 0;
         color: var(--muted);
-        border: 1px solid rgb(72 70 67 / 24%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 999px;
         background: rgb(247 245 239 / 84%);
         padding: 7px 9px;
@@ -139,12 +143,12 @@
 
       .score strong {
         color: var(--text);
-        font-weight: 650;
+        font-weight: var(--type-weight);
       }
 
       .score-label {
         font-size: 0.54rem;
-        font-weight: 700;
+        font-weight: var(--type-weight);
         letter-spacing: 0.14em;
       }
 
@@ -155,7 +159,7 @@
 
       #best {
         color: var(--text);
-        font-weight: 650;
+        font-weight: var(--type-weight);
       }
 
       #game {
@@ -169,7 +173,7 @@
           linear-gradient(var(--grid) 1px, transparent 1px),
           linear-gradient(90deg, var(--grid) 1px, transparent 1px);
         background-size: 96px 96px, 96px 96px, 12px 12px, 12px 12px;
-        border: 1px solid rgb(72 70 67 / 42%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 28px;
         box-shadow:
           3px 3px 0 rgb(72 70 67 / 7%),
@@ -201,6 +205,8 @@
         height: 100%;
         object-fit: contain;
         mix-blend-mode: normal;
+        opacity: 0.84;
+        filter: brightness(1.05) contrast(0.88) saturate(0.78);
         transform: scale(1.12);
       }
 
@@ -211,7 +217,7 @@
       .obstacle {
         left: 0;
         color: var(--pencil);
-        opacity: 0.88;
+        opacity: 0.8;
         transform-origin: bottom center;
       }
 
@@ -220,7 +226,7 @@
         width: 100%;
         height: 100%;
         filter: url('#rough-ink');
-        stroke-width: 0.9;
+        stroke-width: var(--drawing-weight);
       }
 
       .ground {
@@ -244,12 +250,12 @@
         top: 14px;
         left: 14px;
         color: var(--muted);
-        border: 1px solid rgb(72 70 67 / 22%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 999px;
         background: rgb(247 245 239 / 78%);
         padding: 5px 8px;
         font-size: 0.58rem;
-        font-weight: 700;
+        font-weight: var(--type-weight);
         letter-spacing: 0.12em;
         text-transform: uppercase;
       }
@@ -282,7 +288,7 @@
       .overlay-content {
         position: relative;
         padding: 24px 30px;
-        border: 1px solid rgb(72 70 67 / 26%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 24px;
         background: rgb(247 245 239 / 90%);
         box-shadow: 3px 3px 0 rgb(72 70 67 / 6%);
@@ -292,7 +298,7 @@
         margin: 0;
         font-family: inherit;
         font-size: clamp(1.15rem, 4vw, 1.65rem);
-        font-weight: 760;
+        font-weight: var(--type-weight);
         letter-spacing: 0.04em;
         background: linear-gradient(
           105deg,
@@ -320,14 +326,14 @@
 
       button {
         margin-top: 20px;
-        border: 1px solid rgb(72 70 67 / 46%);
+        border: var(--frame-width) solid var(--frame);
         border-radius: 999px;
         background: var(--paper);
         color: var(--text);
         padding: 8px 15px;
         font: inherit;
         font-size: 0.7rem;
-        font-weight: 700;
+        font-weight: var(--type-weight);
         letter-spacing: 0.1em;
         text-transform: uppercase;
         cursor: pointer;
@@ -355,7 +361,7 @@
         min-width: 116px;
         margin: 0;
         padding: 6px 12px;
-        border-color: var(--line);
+        border-color: var(--frame);
         box-shadow: none;
         color: var(--muted);
         font-size: 0.64rem;
@@ -365,6 +371,7 @@
         margin-right: 5px;
         color: var(--text);
         font-size: 1rem;
+        font-weight: var(--type-weight);
       }
 
       .control.is-active {
